@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat</title>
+    <link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+</head>
+<body class="bg-gray-800 text-white min-h-screen">
+    <div class="w-full max-w-md mx-auto pt-10">
+        <h1 class="text-4xl font-bold mb-4">Chat</h1>
+        <form method="POST" class="mb-4" x-data="{ loading: false }" @submit="loading = true">
+            <input type="text" name="user_question" placeholder="Ask a question" required x-bind:disabled="loading" class="flex-grow mr-2 p-2 rounded-lg bg-gray-700 text-white">
+            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" x-bind:disabled="loading">Submit</button>
+            <span x-show="loading" class="ml-2 animate-spin text-blue-500">&#9203;</span>
+        </form>
+        <div id="chat_history">
+            {% for speaker, message in chat_history %}
+                <div class="mb-4">
+                    <p class="font-bold">{{ speaker }}:</p>
+                    <p>{{ message }}</p>
+                </div>
+            {% endfor %}
+        </div>
+        <form method="POST" action="/delete-chat-history">
+            <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Delete Chat History</button>
+        </form>
+    </div>
+</body>
+</html>
